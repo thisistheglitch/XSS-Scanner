@@ -2,7 +2,7 @@
 from threading import Thread
 from xss import XssScanner
 def __main():
-    url = 'http://192.168.1.14/xsstest.php?q=' 
+    url = 'http://192.168.1.11/xsstest.php?q=' 
     wordlist = "wordlist/low.txt"
     methode = 'get'
     thread = 2
