@@ -9,10 +9,9 @@ You must change the direction of the file in xss.py<br>
       
     self.driver = webdriver.Firefox(executable_path="files/driver/geckodriver", options=sets)
     
-You must also change the url and link of the word list in main.xss<br>
+You easy use<br>
       
-    url = 'http://localhost/xsstest.php?q=' 
-    wordlist = "wordlist/low.txt"
+    python3 ./main.py http://yoururl.com/&url?= files/wordlist/xss.txt
     
 <br><br>
 Simple XSS Scanner HTTP/HTTPS with Selenium, actualy just GET methode.<br><br>
