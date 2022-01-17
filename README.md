@@ -7,11 +7,11 @@ If you are using Windows you need to change the webdriver : <br>
 https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/<br>
 You must change the direction of the file in xss.py<br>
 
-     ```python
+     ```py
     self.driver = webdriver.Firefox(executable_path="files/driver/geckodriver", options=sets)
     ```
 You must also change the url and link of the word list in main.xss<br>
-      ```python
+      ```py
     url = 'http://localhost/xsstest.php?q=' 
     wordlist = "wordlist/low.txt"
     ```
