@@ -24,4 +24,4 @@ Simple XSS Scanner HTTP/HTTPS with Selenium, actualy just GET methode.<br><br>
 > Xss Dom Detected
 <a href='https://postimg.cc/wtq61jSY' target='_blank'><img src='https://i.postimg.cc/bvbdFGgr/xssssssss.png' border='0' alt='xssssssss'/></a>
 
-<br><br>
+<br>
