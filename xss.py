@@ -15,20 +15,12 @@ class XssScanner:
         try:    
             sets = webdriver.FirefoxOptions()
             sets.add_argument('--headless')
-            #sets.headless = True
-
             self.driver = webdriver.Firefox(executable_path="files/driver/geckodriver", options=sets)
             self.driver.get(self.driver.get(self.url))
-            #driver.get(driver.get(self.url))
             sleep(5)
         except:
             print(Fore.RED +"Error reply.")
 
-        #self.thread = thread
-        #self.simpleTarget = "<script>alert('alert')</script>"cc bjhnk,l;m
-        
-        #self.detect = []
-     
     def run(self):
         self.data_result = []
         print(Fore.GREEN +'URL attack : '+self.url+'')
@@ -41,11 +33,7 @@ class XssScanner:
         self.detect = 0
         with open(self.wordlist, 'r') as f:
             for i, line in enumerate(f):
-                #print(self.url+str(line))
                 if self.methode == 'get' or self.methode == 'GET':
-                    #Ont vas utilisé Selenium du coup, je veux pouvoir testé la totalité des XSS
-                    #Une fois Selenium mis faut rajouter des proxy
-                    #url = get(self.url+str(line)).text
                     try:
                         self.driver.get(self.url+str(line))
                         sleep(1)
@@ -56,7 +44,6 @@ class XssScanner:
                         pass
                     self.count = self.count +1
 
-                    #print(Fore.GREEN+'GET : '+self.url+str(line))
                     try:
                         WebDriverWait(self.driver, 0).until (EC.alert_is_present())
                         #WebDriverWait(driver, 5).until (EC.alert_is_present())
@@ -67,8 +54,6 @@ class XssScanner:
                         self.data_result.extend([self.url+str(line)])
                     except TimeoutException:
                         print(Fore.RED + 'No XSS detected | '+self.url+str(line) + 'URL receive --->'+self.driver.current_url+'\n')
-
-
                 elif self.methode == 'post' or self.methode == 'POST':
                     print('Construct')
                     quit()                    
@@ -79,7 +64,6 @@ class XssScanner:
             for item in self.data_result:
                 print(str(item))
 
-            #print(self.data_result)
         else:
             print(Fore.RED+'No detected.')
 
