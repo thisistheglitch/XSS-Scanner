@@ -1,5 +1,6 @@
 ## XSS-Scanner
 Simple XSS HTTP/S scanner without proxy, it can scan dom or any other script. <br>I used Selenium to develop this software, it launches a browser in the background and returns the result to you, the script is waiting to receive an alert(). <br>So you can use any wordlist for AngularJS, Electron etc.<br><br>
+If you are using Windows you need to change the webdriver : <br>https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/<br>
 <br>
 ## Setting: 
 <br>url = 'http://URL/&data?='<br>wordlist = "wordlist/low.txt"<br>
