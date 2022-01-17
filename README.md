@@ -1,5 +1,8 @@
 ## XSS-Scanner
-<br>Setting: <br>url = 'http://URL/&data?='<br>wordlist = "wordlist/low.txt"<br>
+Simple XSS HTTP/S scanner without proxy, it can scan dom or any other script. <br>I used Selenium to develop this software, it launches a browser in the background and returns the result to you, the script is waiting to receive an alert(). <br>So you can use any wordlist for AngularJS, Electron etc.<br><br>
+<br>
+##Setting: 
+<br>url = 'http://URL/&data?='<br>wordlist = "wordlist/low.txt"<br>
 Simple XSS Scanner HTTP/HTTPS with Selenium<br><br>
 
 ## Xss Simple Detected
@@ -9,4 +12,3 @@ Simple XSS Scanner HTTP/HTTPS with Selenium<br><br>
 <a href='https://postimg.cc/wtq61jSY' target='_blank'><img src='https://i.postimg.cc/bvbdFGgr/xssssssss.png' border='0' alt='xssssssss'/></a>
 
 <br><br>
-Simple XSS HTTP/S scanner without proxy, it can scan dom or any other script. <br>I used Selenium to develop this software, it launches a browser in the background and returns the result to you, the script is waiting to receive an alert(). <br>So you can use any wordlist for AngularJS, Electron etc.<br>
