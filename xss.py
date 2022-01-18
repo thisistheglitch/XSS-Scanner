@@ -34,8 +34,10 @@ class XssScanner:
 
     def close_browser(self):
         print('Close Browser...')
-        self.driver.close()
-        
+        try:
+            self.driver.close()
+        except:
+            pass
         quit()
 
     def save_result(self):
@@ -62,7 +64,7 @@ class XssScanner:
             if self.methode == 'post':
                 print(Fore.GREEN + 'FAILLIBLE  ->'+self.url + '\n')
             else:
-                print(Fore.WHITE+ 'FAILLIBLE  ->'+self.links)
+                print(Fore.GRREN+ 'FAILLIBLE  ->'+self.links)
             if self.methode == 'post':
                 if self.payload != False:
                     #print(Fore.GREEN + 'XSS exists in ->'+self.url+ '\n')
