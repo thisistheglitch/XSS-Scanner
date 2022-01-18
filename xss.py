@@ -19,15 +19,16 @@ class XssScanner:
             print('Proxy true')
             self.proxyon = True
             self.proxy = proxy
-        if methode == 'post':
-            self.data = tuple(data.split('#'))
-            
+
         self.payload = False
         self.methode = methode
         self.wordlist = wordlist
         self.url = url
         self.payloads = ''
         self.datasets = ''
+        if self.methode == 'post':
+            self.data = tuple(data.split('#'))
+            
         print(Fore.GREEN +"Selenium start...")
         
 
@@ -58,15 +59,25 @@ class XssScanner:
             self.detect = self.detect +1
             alert = self.driver.switch_to.alert
             alert.accept()
-            print(Fore.GREEN + 'XSS exists in ->'+self.url+ '\n')
-            if self.payload != False:
-                self.payloads = str(self.payloads) + str(self.payload) + '\n'
-                self.datasets = str(self.datasets) + str(self.dataset) + '\n'
-                print('Payload ->'+self.payloads + 'Data ->'+self.datasets+'\n')
+            if self.methode == 'post':
+                print(Fore.GREEN + 'FAILLIBLE  ->'+self.url + '\n')
+            else:
+                print(Fore.WHITE+ 'FAILLIBLE  ->'+self.links)
+            if self.methode == 'post':
+                if self.payload != False:
+                    #print(Fore.GREEN + 'XSS exists in ->'+self.url+ '\n')
 
-            self.data_result.extend([self.url])
+                    self.payloads = str(self.payloads) + str(self.payload) + '\n'
+                    self.datasets = str(self.datasets) + str(self.dataset) + '\n'
+                    #print('Payload ->'+self.payloads + 'Data ->'+self.datasets+'\n')
+                    self.data_result.extend([self.url])
+            else:
+                self.data_result.extend([self.links])
         except TimeoutException:
-            print(Fore.RED + 'No XSS detected ->'+self.url + '\n')
+            if self.methode == 'post':
+                print(Fore.WHITE + 'TESTE ->'+self.url + '\n')
+            else:
+                print(Fore.WHITE+ 'TEST ->'+self.links)
 
     def lunchWebDriver(self):
         try:    
@@ -95,10 +106,12 @@ class XssScanner:
         with open(self.wordlist, 'r') as f:
             for i, line in enumerate(f):
                 if self.methode == 'get' or self.methode == 'GET':
-                    self.link = self.url.replace('{{inject}}', str(line))
+                    self.links = self.url.replace('{{inject}}', str(line))
                     try:
-                        self.driver.get(self.link)
+
+                        self.driver.get(self.links)
                         sleep(1)
+
                     except:
                         print(Fore.RED +'URL ERROR.')
                         self.count = self.count - 1
@@ -107,11 +120,16 @@ class XssScanner:
                     self.count = self.count +1
                 elif self.methode == 'post' or self.methode == 'POST':
                     injected = ''
+
                     c = 0
+
                     for o in self.data:
                         rq = tuple(o.split('='))
+
+
                         lst = list(rq)
                         self.dataset = lst[0]
+
                         lst[1] = lst[1].replace('{{inject}}', str(line))
                         self.payload = lst[1]
                         result.append(tuple(lst))                    
@@ -127,6 +145,8 @@ class XssScanner:
         if self.detect >= 1:
             print(Fore.GREEN +'DETECTED\n('+str(self.detect)+'/'+str(self.count)+')')
             self.result = 'URL DETECTED ('+str(self.detect)+'/'+str(self.count)+')\n'
+            
+
             for item in self.data_result:
                 print(str(item))
             save = input('Save scan result ?')
@@ -134,6 +154,7 @@ class XssScanner:
                 self.save_result()
             else:
                 self.close_browser()
+            #print(self.data_result)
         else:
             print(Fore.RED+'No XSS detected.')
             self.close_browser()

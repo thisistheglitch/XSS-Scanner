@@ -5,7 +5,7 @@ import argparse
 
 def _run(url,data):
 
-    wordlist = "files/wordlist/low.txt"
+    wordlist = "files/wordlist/angular.txt"
     if data != False:
         print('Set send POST')
         methode = 'post'
