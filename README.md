@@ -19,9 +19,9 @@ For use post method
 
     python3 main.py -l http://yoururl.com/ -d data={{inject}}#data1={{inject}}#data2=DataNoTested
 
-Script use # for change data scope
-The post method generates the HTML code of the web page before running it in brute on Selenium, 
-I have a small bug in the result, it detects alerts well but the target data is not recovered.
+Script use # for change data scope<br>
+The post method generates the HTML code of the web page before running it in brute on Selenium, <br>
+I have a small bug in the result, it detects alerts well but the target data is not recovered.<br>
 
     
 <br>
