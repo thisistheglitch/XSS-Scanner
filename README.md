@@ -25,7 +25,6 @@ I have a small bug in the result, it detects alerts well but the target data is 
 
     
 <br>
-<br><br>
 Simple XSS Scanner HTTP/HTTPS with Selenium, use -d to add data.<br><br>
 
 ## Xss Simple Detected
