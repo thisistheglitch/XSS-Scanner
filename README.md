@@ -1,7 +1,8 @@
 ## XSS-Scanner
 Simple XSS HTTP/S scanner without proxy, it can scan dom or any other script. <br>I used Selenium to develop this software, it launches a browser in the background and returns the result to you, the script is waiting to receive an alert(). <br>So you can use any wordlist for AngularJS, Electron etc.<br><br>
 
-## Param
+<br>
+## Setting: 
 If you are using Windows you need to change the webdriver : <br>
 https://www.selenium.dev/documentation/webdriver/getting_started/install_drivers/<br>
 You must change the direction of the file in xss.py<br>
@@ -9,10 +10,11 @@ You must change the direction of the file in xss.py<br>
       
     self.driver = webdriver.Firefox(executable_path="files/driver/geckodriver", options=sets)
     
-You easy use<br>
+For use<br>
       
-    python3 ./main.py http://yoururl.com/&url?= files/wordlist/xss.txt
+    python3 main.py -l http://yoururl.com/?data={{inject}}&data2={{inject}}
     
+<br>
 <br><br>
 Simple XSS Scanner HTTP/HTTPS with Selenium, actualy just GET methode.<br><br>
 
