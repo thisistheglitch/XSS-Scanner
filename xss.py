@@ -6,9 +6,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from random import randint
-
+import requests
 class XssScanner:
-    def __init__(self, url, wordlist, methode, proxy):
+    def __init__(self, url, wordlist, methode, proxy, data):
         if(proxy == False):
             print('No proxy')
         elif(proxy == "API"):
@@ -19,19 +19,17 @@ class XssScanner:
             print('Proxy true')
             self.proxyon = True
             self.proxy = proxy
-
+        if methode == 'post':
+            self.data = tuple(data.split('#'))
+            
+        self.payload = False
         self.methode = methode
         self.wordlist = wordlist
         self.url = url
+        self.payloads = ''
+        self.datasets = ''
         print(Fore.GREEN +"Selenium start...")
-        try:    
-            sets = webdriver.FirefoxOptions()
-            sets.add_argument('--headless')
-            self.driver = webdriver.Firefox(executable_path="files/driver/geckodriver", options=sets)
-            #self.driver.get(self.driver.get(self.url))
-            sleep(4)
-        except:
-            print(Fore.RED +"Error reply.")
+        
 
     def close_browser(self):
         print('Close Browser...')
@@ -42,12 +40,44 @@ class XssScanner:
     def save_result(self):
         filename = randint(1, 1000000)
         files = open('files/save/'+str(filename)+'_result.txt', "a")
+        if self.payloads != False:
+            files.write('\nPayload ->'+self.payloads + '\nData ->'+self.datasets+'\n')
+
+
         files.write(self.result)
-        for item in self.data_result:
-                files.write(str(item))
+        if self.methode == 'get':
+            files.write(str(self.data_result))
+        else:
+            files.write(str(self.data_result))
         print('File save in files/save/'+str(filename)+'_result.txt')
         files.close()
         self.close_browser()
+    def scan(self):
+        try:
+            WebDriverWait(self.driver, 0).until (EC.alert_is_present())            
+            self.detect = self.detect +1
+            alert = self.driver.switch_to.alert
+            alert.accept()
+            print(Fore.GREEN + 'XSS exists in ->'+self.url+ '\n')
+            if self.payload != False:
+                self.payloads = str(self.payloads) + str(self.payload) + '\n'
+                self.datasets = str(self.datasets) + str(self.dataset) + '\n'
+                print('Payload ->'+self.payloads + 'Data ->'+self.datasets+'\n')
+
+            self.data_result.extend([self.url])
+        except TimeoutException:
+            print(Fore.RED + 'No XSS detected ->'+self.url + '\n')
+
+    def lunchWebDriver(self):
+        try:    
+            sets = webdriver.FirefoxOptions()
+            sets.add_argument('--headless')
+            self.driver = webdriver.Firefox(executable_path="files/driver/geckodriver", options=sets)
+            self.driver.get(self.driver.get(self.url))
+            #sleep(4)
+        except:
+            print("Run")
+
 
     def run(self):
         self.data_result = []
@@ -59,55 +89,51 @@ class XssScanner:
             self.close_browser()
         self.count = 0
         self.detect = 0
-        
+        result = []
+        self.lunchWebDriver()
+
         with open(self.wordlist, 'r') as f:
             for i, line in enumerate(f):
-                url = self.url.replace('{{inject}}', str(line))
                 if self.methode == 'get' or self.methode == 'GET':
+                    self.link = self.url.replace('{{inject}}', str(line))
                     try:
-
-                        self.driver.get(url)
+                        self.driver.get(self.link)
                         sleep(1)
-
                     except:
                         print(Fore.RED +'URL ERROR.')
                         self.count = self.count - 1
                         pass
+                    self.scan()
                     self.count = self.count +1
-
-                    #print(Fore.GREEN+'GET : '+url)
-                    try:
-                        WebDriverWait(self.driver, 0).until (EC.alert_is_present())
-                        
-
-                        self.detect = self.detect +1
-                        alert = self.driver.switch_to.alert
-                        alert.accept()
-                        print(Fore.GREEN + 'XSS exists in | '+url+ 'URL receive --->'+self.driver.current_url+'\n')
-                        self.data_result.extend([url])
-                    except TimeoutException:
-                        print(Fore.RED + 'No XSS detected | '+url + 'URL receive --->'+self.driver.current_url+'\n')
-
-
                 elif self.methode == 'post' or self.methode == 'POST':
-                    response = webdriver.request('POST', self.url, data={"param1": "value1"})
-                    print(Fore.RED+'Method not supported')
-                    self.close_browser()                 
+                    injected = ''
+                    c = 0
+                    for o in self.data:
+                        rq = tuple(o.split('='))
+                        lst = list(rq)
+                        self.dataset = lst[0]
+                        lst[1] = lst[1].replace('{{inject}}', str(line))
+                        self.payload = lst[1]
+                        result.append(tuple(lst))                    
+                    x = requests.post(self.url, data=result)
+                    html_content = x.text 
+                    self.driver.get("data:text/html;charset=utf-8,{html_content}".format(html_content=html_content))
+                    sleep(2)
+                    self.scan()
+                    result = []
+                    self.payload = False                 
                 pass
         print("######SCAN_END####")
         if self.detect >= 1:
             print(Fore.GREEN +'DETECTED\n('+str(self.detect)+'/'+str(self.count)+')')
             self.result = 'URL DETECTED ('+str(self.detect)+'/'+str(self.count)+')\n'
-
             for item in self.data_result:
                 print(str(item))
-            #self.result = 'URL DETECTED\n '+ str(self.data_result) +'('+str(self.detect)+'/'+str(self.count)+')'
             save = input('Save scan result ?')
             if save == "yes" or save == "y":
                 self.save_result()
             else:
                 self.close_browser()
-            #print(self.data_result)
         else:
             print(Fore.RED+'No XSS detected.')
             self.close_browser()
