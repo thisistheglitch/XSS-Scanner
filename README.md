@@ -25,7 +25,7 @@ I have a small bug in the result, it detects alerts well but the target data is 
 
     
 <br>
-Simple XSS Scanner HTTP/HTTPS with Selenium, use -d to add data.<br><br>
+Simple XSS Scanner HTTP/HTTPS with Selenium.<br><br>
 
 ## Xss Simple Detected
 <a href='https://postimg.cc/PPSTvjzg' target='_blank'><img src='https://i.postimg.cc/6pX3S67p/Capture-d-cran-2022-01-17-17-30-15.png' border='0' alt=''/></a><br><br>
