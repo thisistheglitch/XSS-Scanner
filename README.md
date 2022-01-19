@@ -22,7 +22,7 @@ For use post method
 
 If you use custom wordlist
 
-    python3 main.py -l http://yoururl.com/{{inject}}\&data={{inject}} -w files/wordlist/youcustomwordlist.txt
+    python3 main.py -l http://yoururl.com/ -d name=paul#dataInjecte={{inject}} -w files/wordlist/youcustomwordlist.txt
 
 
 Script use # for change data scope
