@@ -42,20 +42,17 @@ def __main():
     #else:
         #args.p = True
     if not args.w:
-        args.w = "files/wordlist/lowdom.txt"
+        args.w = "files/wordlist/low.txt"
     
 
     if not args.d:
         sleep(0.5)
         args.d = False
-        print('Send GET data : http://localhost/xsstest.php?q={{inject}}')
+        print('Send GET data')
 
     if not args.l:
-        sleep(0.5)
-        args.l = 'http://localhost/xsstest.php?q={{inject}}'
-        if args.d != False:
-            args.l = 'http://localhost/xsstest.php'
-        print('default url :'+args.l)
+        args.l = 'http://localhost/xsstest.php?q='
+    print('default url :'+args.l)
     return args
 
 
