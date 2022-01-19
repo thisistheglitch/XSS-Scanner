@@ -17,7 +17,7 @@ For use get method<br>
 For use post method
 
     python3 main.py -l http://yoururl.com/ -d data={{inject}}#data1={{inject}}#data2=NoInject
-    Note: for get data use # to change data.
+    Note: use # to change data.
 
 
 If you use custom wordlist
