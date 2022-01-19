@@ -11,14 +11,8 @@ class XssScanner:
     def __init__(self, url, wordlist, methode, proxy, data):
         if(proxy == False):
             print('No proxy')
-        elif(proxy == "API"):
-            print('API PROXY SELECTED')
-            self.proxyon = True
-            self.proxy = 'api'
         else:
-            print('Proxy true')
-            self.proxyon = True
-            self.proxy = proxy
+            print('API PROXY SELECTED')
 
         self.payload = False
         self.methode = methode
@@ -64,7 +58,7 @@ class XssScanner:
             if self.methode == 'post':
                 print(Fore.GREEN + 'FAILLIBLE  ->'+self.url + '\n')
             else:
-                print(Fore.GRREN+ 'FAILLIBLE  ->'+self.links)
+                print(Fore.GREEN + 'FAILLIBLE  ->'+self.links)
             if self.methode == 'post':
                 if self.payload != False:
                     #print(Fore.GREEN + 'XSS exists in ->'+self.url+ '\n')
@@ -118,6 +112,7 @@ class XssScanner:
                         print(Fore.RED +'URL ERROR.')
                         self.count = self.count - 1
                         pass
+                    sleep(2)
                     self.scan()
                     self.count = self.count +1
                 elif self.methode == 'post' or self.methode == 'POST':
@@ -151,7 +146,7 @@ class XssScanner:
 
             for item in self.data_result:
                 print(str(item))
-            save = input('Save scan result ?')
+            save = input('Save scan result ?(y/yes)')
             if save == "yes" or save == "y":
                 self.save_result()
             else:

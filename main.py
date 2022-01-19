@@ -3,9 +3,8 @@ from xss import XssScanner
 from time import sleep 
 import argparse
 
-def _run(url,data):
+def _run(url,data, proxy, wordlist):
 
-    wordlist = "files/wordlist/angular.txt"
     if data != False:
         print('Set send POST')
         methode = 'post'
@@ -20,7 +19,7 @@ def _run(url,data):
         pass
     
     thread = 2
-    proxy = False
+    #proxy = False
     lunch = XssScanner(url, wordlist, methode, proxy, data)
     lunch.run()
 
@@ -30,14 +29,27 @@ def __main():
     parser.add_argument('-l', type=str, help='URL type is https://link.com/?data1={{inject}}&?data2={{inject}}\nPayload injected in "inject"')
     try:
         parser.add_argument("-d", required=False, help='Use data POST send data1={{inject}}#data2={{inject}}\nPayload injected in "inject"')
+        parser.add_argument("-w", required=False, help='If you use other wordlist(default is : files/wordlist/low.txt)"')
 
     except:
         pass
     args = parser.parse_args()
+    args.p = False
+
+    #if not args.p:
+        #args.p = False
+        #print('API proxy no set')
+    #else:
+        #args.p = True
+    if not args.w:
+        args.w = "files/wordlist/lowdom.txt"
+    
+
     if not args.d:
         sleep(0.5)
         args.d = False
         print('Send GET data : http://localhost/xsstest.php?q={{inject}}')
+
     if not args.l:
         sleep(0.5)
         args.l = 'http://localhost/xsstest.php?q={{inject}}'
@@ -52,5 +64,5 @@ if __name__ == '__main__':
     print('With run use\npython3 ./main.py -l https://link.com/?data1={{inject}}&?data2={{inject}}\n\nIf you use post data\npython3 ./main.py -l https://link.com/ -d data1={{inject}}#data2={{inject}}&data3=text \n\n')
 
     parse = __main()
-    _run(parse.l, parse.d)
+    _run(parse.l, parse.d, parse.p, parse.w)
     
