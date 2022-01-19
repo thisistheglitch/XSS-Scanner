@@ -129,7 +129,8 @@ class XssScanner:
 
                         lst[1] = lst[1].replace('{{inject}}', str(line))
                         self.payload = lst[1]
-                        result.append(tuple(lst))                    
+                        result.append(tuple(lst)) 
+                        self.count = self.count +1
                     x = requests.post(self.url, data=result)
                     html_content = x.text 
                     self.driver.get("data:text/html;charset=utf-8,{html_content}".format(html_content=html_content))
